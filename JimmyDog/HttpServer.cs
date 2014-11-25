@@ -104,7 +104,7 @@ namespace JimmyDog
             // συμβολοσειρά (διαλέγοντας τις θέσεις του πίνακα στις οποίες καταχωρήθηκε το μήνυμα)
             string stringReceived = characterEncoder.GetString(buffer, 0, receivedByteCount);
             
-            // Παρακάτω είναι ένα δείγμα ενός HTTP request
+            // Παρακάτω παρατίθεται ένα παράδειγμα ενός HTTP request
             // -------------------------------------------
             // GET / HTTP/1.1[CRLF]
             // Host: facebook.com[CRLF]
@@ -121,33 +121,55 @@ namespace JimmyDog
             string httpMethod = stringReceived.Substring(0, stringReceived.IndexOf(" "));
             int start = stringReceived.IndexOf(httpMethod) + httpMethod.Length + 1;
             int length = stringReceived.LastIndexOf("HTTP") - start - 1;
+            
+            // Διαβάζουμε την διεύθυνση που ζητήθηκε από τον client
             string requestedUrl = stringReceived.Substring(start, length);
 
             string requestedFile;
+            // Αν η μέθοδος είναι τύπου GET
             if (httpMethod.Equals("GET"))
+            {
+                // Η μέθοδος Split χωρίζει ένα string με βάση ένα χαρακτήρα
+                // και επιστρέφει έναν πίνακα με strings (κάτι σας tokens).
+                // Εμείς θέλουμε το πρώτο token για να εξάγουμε το αρχείο που
+                // ζητάει ο client.
                 requestedFile = requestedUrl.Split('?')[0];
+            }
             else 
             {
+                // TO-DO: θα δημιουργήσουμε μια μέθοδο που θα στέλνει κωδικό 501 (Not Implemented)
+                // για την περίπτωση μη υποστήριξης της μεθόδου
                 return;
             }
 
             // Αποτρέπουμε τον χρήστη να μεταβεί στον parent folder του root path
             requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", "");
+            // Βρίσκουμε την επέκταση του αρχείου που ζήτησε ο client
             start = requestedFile.LastIndexOf(".") + 1;
+            // Αν υπάρχει επέκταση
             if (start > 0)
             {
                 length = requestedFile.Length - start;
                 string extension = requestedFile.Substring(start, length);
+                // Υπάρχει στους υποστηριζόμενους τύπους αρχειων;
                 if (contentExtensions.ContainsKey(extension))
                 {
+                    // Υπάρχει το αρχείο;
                     if (File.Exists(wwwPath + requestedFile))
+                    {
+                        // Στείλτο με κωδικό OK
                         responseOK(clientSocket, File.ReadAllBytes(wwwPath + requestedFile), contentExtensions[extension]);
-                    else
+                    }
+                    else 
+                    {
+                        // Αλλιώς απάντησε οτι δεν το βρήκες
                         notFound(clientSocket);
+                    }
                 }
             }
             else 
             {
+                // Αλλιώς στείλτον στο index.html αν υπάρχει
                 if (requestedFile.Substring(length - 1, 1) != "\\")
                     requestedFile += "\\";
                 if (File.Exists(wwwPath + requestedFile + "index.htm"))
