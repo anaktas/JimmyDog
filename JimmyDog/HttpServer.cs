@@ -17,53 +17,85 @@ namespace JimmyDog
     class HttpServer
     {
         /// <summary>
-        /// 
+        /// Μέθοδος εκκίνησης του server.
+        /// Εγκαθιδρύει μια επικοινωνία μέσω Socket μετάξυ ενός server και ενός
+        /// client. Για μεγιστοποίηση της απόδοσης δημιουργούνται threads για την
+        /// ανίχνευση και τον χειρισμό των requests.
         /// </summary>
-        /// <param name="ipAddress"></param>
-        /// <param name="port"></param>
-        /// <param name="maxConnections"></param>
-        /// <param name="wwwPath"></param>
-        /// <returns></returns>
+        /// <param name="ipAddress">H διεύθυνση IP του server</param>
+        /// <param name="port">Η θύρα στην οποία ανταποκρίνεται ο server</param>
+        /// <param name="maxConnections">Το πλήθος των συνδέσεων το οποίο μπορεί να χειριστεί ο server</param>
+        /// <param name="wwwPath">To path του φακέλου root του server</param>
+        /// <returns>Επιστρέφει μια τιμή Boolean</returns>
         public bool start(IPAddress ipAddress, int port, int maxConnections, string wwwPath) 
         {
+            // Αν τρέχει ήδη μην κάνεις τίποτα
             if (isRunning)
                 return false;
 
             try
             {
+                // Προσπάθησε να ανοίξεις ένα socket για τον server
+                // To πρωτόκολλο που θα χρησιμοποιήσουμε είναι το TCP
                 serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                // Με ποια διεύθυνση και ποια θύρα είναι συνδεδεμένο το socket
                 serverSocket.Bind(new IPEndPoint(ipAddress, port));
+                // Μέχρι πόσα connection μπορεί να χειριστεί
                 serverSocket.Listen(maxConnections);
+                // Timeout λήψης και αποστολής
                 serverSocket.ReceiveTimeout = transferTimeout;
                 serverSocket.SendTimeout = transferTimeout;
+                // Ο server τρέχει
                 isRunning = true;
+                // To path που μας δίνεται κατοχυρώνεται στην μεταβλητή wwwPath του HttpServer
                 this.wwwPath = wwwPath;
             }
-            catch 
+            catch (SocketException exc)
             {
+                // Αν αποτύχει κατέγραψε το γιατί και επέστρεψε false
+                Logger.error(exc.Message);
                 return false;
             }
+            catch
+            {
+                return false;            
+            }
 
+            // Δημιουργούμε ένα Thread για να "ακούει" τα requests.
+            // Για να απλοποιήσω τον κώδικα, χρησιμοποίησα lamda expression 
+            // ως όρισμα για το Thread, αντι να δημιουργήσω μια μέθοδο την 
+            // οποία θα περάσω ως όρισμα. Εκτός οτι συμπιέζεται ο κώδικας, υπάρχει 
+            // και μια ελάχιστη αύξηση της απόδοσης σχετικά με την διαχείριση μνήμης
+            // μιας και η ανώνυμη μέθοδος που δημιουργήσαμε έχει διάρκεια ζωής μιας
+            // μεταβλητής.
             Thread requestListeningThread = new Thread(() =>
             {
+                // Για όσο τρέχει ο server
                 while (isRunning) 
                 {
+                    // Δημιουργήσε ένα client socket
                     Socket clientSocket;
                     try
                     {
+                        // Συνέδεσέ το με τον server
                         clientSocket = serverSocket.Accept();
+                        // Δημιούργησε ένα νέο thread για να χειριστείς τα 
+                        // requests (κι εδώ χρησιμοποιήθηκε lamba expression)
                         Thread requestHandlingThread = new Thread(() => 
                         {
+                            // Όρισε το timeout αποστολής και λήψης του client
                             clientSocket.ReceiveTimeout = transferTimeout;
                             clientSocket.SendTimeout = transferTimeout;
                             try
                             {
+                                // Κάλεσε την μέθοδο χειρισμού με όρισμα το clientSocket Socket
                                 httpRequestHandler(clientSocket);
                             }
                             catch
                             {
                                 try
                                 {
+                                    // Αν αποτύχει κλείσε το clientSocket
                                     clientSocket.Close();
                                 }
                                 catch
@@ -72,6 +104,7 @@ namespace JimmyDog
                                 }
                             }
                         });
+                        // Ξεκίνα το thread για τον χειρισμό
                         requestHandlingThread.Start();
                     }
                     catch 
@@ -80,8 +113,9 @@ namespace JimmyDog
                     }
                 }
             });
+            // Ξεκίνα το thread για την ακρόαση
             requestListeningThread.Start();
-
+            //Επέστρεψε true
             return true;
         }
         
