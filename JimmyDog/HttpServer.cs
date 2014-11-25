@@ -287,14 +287,14 @@ namespace JimmyDog
                 // Αν προκύψει SocketException, κατέγραψέ το στο error.txt
                 Logger.error(exc.Message);
                 // και ενημέρωσε τον χρήστη για το σφάλμα
-                MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να στείλει response στον client. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Κάτι πήγε στραβά! O server δεν μπόρεσε να στείλει response στον client. Το μήνυμα σφάλματός είναι:\n" + exc.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception exc)
             {
                 // Αν προκύψει Exception, κατέγραψέ το στο error.txt
                 Logger.error(exc.Message);
                 // και ενημέρωσε τον χρήστη για το σφάλμα
-                MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να στείλει response στον client. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Κάτι πήγε στραβά! O server δεν μπόρεσε να στείλει response στον client. Το μήνυμα σφάλματός είναι:\n" + exc.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -316,16 +316,16 @@ namespace JimmyDog
                 catch (SocketException exc)
                 {
                     // Κατέγραψε το σφάλμα στον error.txt αν προκύψει SocketException
-                    Logger.error(exc.Message);
+                    Logger.error(exc.Message.ToString());
                     // και ενημέρωσε τον χρήστη.
-                    MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception exc)
                 {
                     // Κατέγραψε το σφάλμα στον error.txt αν προκύψει γενικό Exception
-                    Logger.error(exc.Message);
+                    Logger.error(exc.Message.ToString());
                     // και ενημέρωσε τον χρήστη.
-                    MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 // Απελευθέρωσε τη μνήμη αποδευσμεύοντας το αντικείμενο serverSocket
                 serverSocket = null;
