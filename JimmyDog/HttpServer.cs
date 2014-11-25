@@ -104,8 +104,21 @@ namespace JimmyDog
             // συμβολοσειρά (διαλέγοντας τις θέσεις του πίνακα στις οποίες καταχωρήθηκε το μήνυμα)
             string stringReceived = characterEncoder.GetString(buffer, 0, receivedByteCount);
             
+            // Παρακάτω είναι ένα δείγμα ενός HTTP request
+            // -------------------------------------------
+            // GET / HTTP/1.1[CRLF]
+            // Host: facebook.com[CRLF]
+            // Connection: close[CRLF]
+            // User-Agent: Web-sniffer/1.1.0 (+http://web-sniffer.net/)[CRLF]
+            // Accept-Encoding: gzip[CRLF]
+            // Accept-Charset: ISO-8859-1,UTF-8;q=0.7,*;q=0.7[CRLF]
+            // Cache-Control: no-cache[CRLF]
+            // Accept-Language: de,en;q=0.7,en-us;q=0.3[CRLF]
+            // Referer: http://web-sniffer.net/[CRLF]
+            // --------------------------------------------
+            // Θέλουμε να διαβάσουμε το πρώτο κομμάτι του μηνύματος που υποδεικνύει την
+            // μέθοδο (εν προκειμένω GET)
             string httpMethod = stringReceived.Substring(0, stringReceived.IndexOf(" "));
-            
             int start = stringReceived.IndexOf(httpMethod) + httpMethod.Length + 1;
             int length = stringReceived.LastIndexOf("HTTP") - start - 1;
             string requestedUrl = stringReceived.Substring(start, length);
@@ -118,6 +131,7 @@ namespace JimmyDog
                 return;
             }
 
+            // Αποτρέπουμε τον χρήστη να μεταβεί στον parent folder του root path
             requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", "");
             start = requestedFile.LastIndexOf(".") + 1;
             if (start > 0)
