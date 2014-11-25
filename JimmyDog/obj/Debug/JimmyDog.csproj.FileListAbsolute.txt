@@ -1,0 +1,9 @@
+K:\JimmyDog_Source\JimmyDog\JimmyDog\bin\Debug\JimmyDog.exe
+K:\JimmyDog_Source\JimmyDog\JimmyDog\bin\Debug\JimmyDog.pdb
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\ResolveAssemblyReference.cache
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.MainConfigForm.resources
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.Properties.Resources.resources
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.csproj.GenerateResource.Cache
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.exe
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.pdb
+K:\JimmyDog_Source\JimmyDog\JimmyDog\obj\Debug\JimmyDog.AboutBox.resources
