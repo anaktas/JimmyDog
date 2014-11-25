@@ -134,7 +134,7 @@ namespace JimmyDog
             // Εμφάνιση του menu item start
             startToolStripMenuItem.Enabled = true;
             // Εμφάνιση του menu item restart
-            restartToolStripMenuItem.Enabled = true;
+            restartToolStripMenuItem.Enabled = false;
             // Εμφάνισε το μπαλόνι πληροφοριών για το σταμάτημα του server.
             notifyTrayIcon.BalloonTipText = "Ο server σταμάτησε.";
             notifyTrayIcon.ShowBalloonTip(200);
