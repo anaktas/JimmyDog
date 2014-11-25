@@ -25,10 +25,10 @@ namespace JimmyDog
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\error.txt")) 
             {
                 // ...δημιούργησέ το.
-                File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\error.txt", "------JimmyDog Error File------");
+                File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\error.txt", "------JimmyDog Error File------" + Environment.NewLine);
             }
             // Πρόσθεσε το timestamp (την χρονοσφραγίδα της στιγμής της κλήσης αυτής της μεθόδου) και το μήνυμα σφάλματος σε μια γραμμή.
-            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\error.txt", DateTime.Now.ToString() + ": " + errorText);
+            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\error.txt", DateTime.Now.ToString() + ": " + errorText + Environment.NewLine);
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace JimmyDog
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt"))
             {
                 // ...δημιούργησέ το.
-                File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt", "------JimmyDog Log File------");
+                File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt", "------JimmyDog Log File------" + Environment.NewLine);
             }
             // Πρόσθεσε το timestamp (την χρονοσφραγίδα της στιγμής της κλήσης αυτής της μεθόδου) και το μήνυμα καταγραφής σε μια γραμμή.
-            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt", DateTime.Now.ToString() + ": " + logText);
+            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\log.txt", DateTime.Now.ToString() + ": " + logText + Environment.NewLine);
 
         }
     }
