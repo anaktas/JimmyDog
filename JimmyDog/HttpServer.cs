@@ -56,9 +56,17 @@ namespace JimmyDog
                 Logger.error(exc.Message);
                 return false;
             }
-            catch
+            catch (ObjectDisposedException exc)
             {
-                return false;            
+                // Δεν ξέρω πόσο πιθανό είναι να προκύψει αυτό το exception.
+                // Θα πρέπει ίσως με κάποιο τρόπο να διακοπεί η επικοινωνία μεταξύ
+                // server και client.
+                Logger.error(exc.Message);
+                return false;
+            }
+            catch 
+            {
+                return false;
             }
 
             // Δημιουργούμε ένα Thread για να "ακούει" τα requests.
@@ -92,24 +100,24 @@ namespace JimmyDog
                                 httpRequestHandler(clientSocket);
                             }
                             catch
-                            {
-                                try
-                                {
-                                    // Αν αποτύχει κλείσε το clientSocket
-                                    clientSocket.Close();
-                                }
-                                catch
-                                { 
-                                    
-                                }
+                            {                                
+                                // Αν αποτύχει κλείσε το clientSocket
+                                // (Αφαιρέθηκε το try-catch block μια και η μέθοδος Close 
+                                // δεν επιστρέφει κανένα exception το οποίο να μπορούμε να χειριστούμε
+                                // και κατά συνέπεια δεν έχει νόημα να υλοποιήσουμε ένα τέτοιο μπλόκ).
+                                clientSocket.Close();                                
                             }
                         });
                         // Ξεκίνα το thread για τον χειρισμό
                         requestHandlingThread.Start();
                     }
-                    catch 
-                    { 
-                    
+                    catch (InvalidOperationException exc)
+                    {
+                        Logger.error(exc.Message);
+                    }
+                    catch (ObjectDisposedException exc)
+                    {
+                        Logger.error(exc.Message);
                     }
                 }
             });
