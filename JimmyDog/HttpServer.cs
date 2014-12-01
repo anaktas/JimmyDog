@@ -115,10 +115,6 @@ namespace JimmyDog
                     {
                         Logger.error(exc.Message);
                     }
-                    catch (ObjectDisposedException exc)
-                    {
-                        Logger.error(exc.Message);
-                    }
                 }
             });
             // Ξεκίνα το thread για την ακρόαση
@@ -167,7 +163,7 @@ namespace JimmyDog
             // Διαβάζουμε την διεύθυνση που ζητήθηκε από τον client
             string requestedUrl = stringReceived.Substring(start, length);
 
-            string requestedFile;
+            string requestedFile = "";
             // Αν η μέθοδος είναι τύπου GET
             if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
             {
