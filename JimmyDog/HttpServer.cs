@@ -173,7 +173,7 @@ namespace JimmyDog
             {
                 // TO-DO: θα δημιουργήσουμε μια μέθοδο που θα στέλνει κωδικό 501 (Not Implemented)
                 // για την περίπτωση μη υποστήριξης της μεθόδου
-                return;
+                notImplemented(clientSocket);
             }
 
             // Αποτρέπουμε τον χρήστη να μεταβεί στον parent folder του root path
