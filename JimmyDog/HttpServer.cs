@@ -161,7 +161,7 @@ namespace JimmyDog
 
             string requestedFile;
             // Αν η μέθοδος είναι τύπου GET
-            if (httpMethod.Equals("GET"))
+            if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
             {
                 // Η μέθοδος Split χωρίζει ένα string με βάση ένα χαρακτήρα
                 // και επιστρέφει έναν πίνακα με strings (κάτι σας tokens).
@@ -224,6 +224,16 @@ namespace JimmyDog
         {
             // Κλήση της υπερφορτωμένης μεθόδου response 
             response(clientSocket, "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><title>404 - Not Found</title></head><body><h2>JimmyDog Server</h2><hr><div>404 - File not found</div></body></html>", "404 Not Found", "text/html");
+        }
+
+        /// <summary>
+        /// Μέθοδος απόκρισης "501 Not Implemented" σε περίπτωση που
+        /// δεν υποστηρίζεται η http μέθοδος που χρησιμοποίησε ο client
+        /// </summary>
+        /// <param name="clientSocket">Το socket του client</param>
+        private void notImplemented(Socket clientSocket) 
+        {
+            response(clientSocket, "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><title>501 - Not Implemented</title></head><body><h2>JimmyDog Server</h2><hr><div>501 - Not Implemented</div></body></html>", "501 Not Implemented", "text/html");
         }
 
         /// <summary>
