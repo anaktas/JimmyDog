@@ -318,14 +318,14 @@ namespace JimmyDog
                     // Κατέγραψε το σφάλμα στον error.txt αν προκύψει SocketException
                     Logger.error(exc.Message.ToString());
                     // και ενημέρωσε τον χρήστη.
-                    //MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception exc)
                 {
                     // Κατέγραψε το σφάλμα στον error.txt αν προκύψει γενικό Exception
                     Logger.error(exc.Message.ToString());
                     // και ενημέρωσε τον χρήστη.
-                    //MessageBox.Show(this, "Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Κάτι πήγε στραβά! O server δεν μπόρεσε να κλείσει. Το μήνυμα σφάλματός είναι:\n" + exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 // Απελευθέρωσε τη μνήμη αποδευσμεύοντας το αντικείμενο serverSocket
                 serverSocket = null;
