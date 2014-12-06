@@ -176,10 +176,10 @@ namespace JimmyDog
             // Απενεργοποίηση του κουμπιού.
             submittButton.Enabled = false;
             // Κατοχύρωση των τιμών των textboxes στις αντίστοιχες μεταβλητές
-            ipAddressString = ipTextBox.Text;
-            wwwPath = pathTextBox.Text;
-            port = Convert.ToInt32(portTextBox.Text);
-            maxConnections = Convert.ToInt32(maxConnectionBox.Text);
+            ipAddressString = ipTextBox.Text.Trim();
+            wwwPath = pathTextBox.Text.Trim();
+            port = Convert.ToInt32(portTextBox.Text.Trim());
+            maxConnections = Convert.ToInt32(maxConnectionBox.Text.Trim());
             // Ενημέρωσε τον χρήστη οτι όλα πήγαν καλά.
             MessageBox.Show(this, "Οι ρυθμίσεις αποθηκεύτηκαν.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             // Ενεργοποίηση του κουμπιού.
