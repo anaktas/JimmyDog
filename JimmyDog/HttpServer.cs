@@ -54,6 +54,7 @@ namespace JimmyDog
             {
                 // Αν αποτύχει κατέγραψε το γιατί και επέστρεψε false
                 Logger.error(exc.Message);
+                Logger.error("\n----StackTrace Begin----\n\n" + exc.StackTrace + "\n\n----StackTrace End----");
                 return false;
             }
             catch (ObjectDisposedException exc)
@@ -62,6 +63,7 @@ namespace JimmyDog
                 // Θα πρέπει ίσως με κάποιο τρόπο να διακοπεί η επικοινωνία μεταξύ
                 // server και client.
                 Logger.error(exc.Message);
+                Logger.error("\n----StackTrace Begin----\n\n" + exc.StackTrace + "\n\n----StackTrace End----");
                 return false;
             }
             catch 
@@ -110,15 +112,24 @@ namespace JimmyDog
                         });
                         // Ξεκίνα το thread για τον χειρισμό
                         requestHandlingThread.Start();
+                        string clientIP = clientSocket.RemoteEndPoint.ToString();
+                        Logger.log("A handling thread just started for: " + clientIP);
+                    }
+                    catch (SocketException exc ) 
+                    {
+                        Logger.error(exc.Message);
+                        Logger.error("\n----StackTrace Begin----\n\n" + exc.StackTrace + "\n\n----StackTrace End----");
                     }
                     catch (InvalidOperationException exc)
                     {
                         Logger.error(exc.Message);
+                        Logger.error("\n----StackTrace Begin----\n\n" + exc.StackTrace + "\n\n----StackTrace End----");
                     }
                 }
             });
             // Ξεκίνα το thread για την ακρόαση
             requestListeningThread.Start();
+            Logger.log("A listening thread just started");
             //Επέστρεψε true
             return true;
         }
