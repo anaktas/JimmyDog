@@ -66,7 +66,7 @@ namespace JimmyDog
                 serverSocket.SendTimeout = transferTimeout;
                 // Ο server τρέχει
                 isRunning = true;
-                // To path που μας δίνεται κατοχυρώνεται στην μεταβλητή wwwPath του HttpServer
+                // To path που μας δίνεται καταχωρείται στην μεταβλητή wwwPath του HttpServer
                 this.wwwPath = wwwPath;
             }
             catch (SocketException exc)
