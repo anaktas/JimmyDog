@@ -154,7 +154,7 @@ namespace JimmyDog
         }
         
         /// <summary>
-        /// Μέθοδος χειρισμού ενός http request από ένα client
+        /// Μέθοδος χειρισμού ενός http request ενός client
         /// </summary>
         /// <param name="clientSocket">To socket του client</param>
         private void httpRequestHandler(Socket clientSocket) 
